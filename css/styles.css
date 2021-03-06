@@ -5,6 +5,8 @@
 /* просто какойто цвет текста rgba(255, 255, 255, 0.6) */
 /* вторичный цвет фона  #F5F4FA */
 /* цвет бека героя #2F303A */
+/* --card-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12); */
 
 :root {
   --primary-text-color: #757575;
@@ -15,13 +17,17 @@
   --secondary-bg-color: #f5f4fa;
   --third-bg-color: #2f303a;
   --secondary-text-color: rgba(255, 255, 255, 0.6);
-  --card-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
-    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  --card-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   --icon-color: #afb1b8;
   --bg-icon: rgba(255, 255, 255, 0.1);
   --bg-hero: rgba(47, 48, 58, 0.4);
+  --border-color: #ececec;
   --bg-button: 0px 3px 1px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.08),
     0px 2px 2px rgba(0, 0, 0, 0.12);
+  --card-bd-hiden: rgba(33, 150, 243, 0.9);
+  --time-function: cubic-bezier(0.4, 0, 0.2, 1);
+  --bg-color-work: rgba(47, 48, 58, 0.8);
+  --bg-modal: rgba(0, 0, 0, 0.2);
 }
 
 body {
@@ -59,6 +65,10 @@ svg {
   display: flex;
   max-width: 100%;
   height: auto;
+}
+
+.header {
+  border-bottom: 1px solid var(--border-color);
 }
 
 /* logo */
@@ -110,6 +120,19 @@ svg {
 
 .site-nav .item:not(:last-child) {
   margin-right: 50px;
+  position: relative;
+}
+
+.current::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 4px;
+  border-radius: 4px;
+  background-color: var(--accent-color);
 }
 
 .auth-nav {
@@ -160,15 +183,18 @@ svg {
 .site-nav .link:hover,
 .site-nav .link:focus {
   color: var(--accent-color);
+  transition: color 250ms var(--time-function);
 }
 
 .auth-nav .link:hover,
 .auth-nav .link:focus {
   color: var(--accent-color);
+  transition: color 250ms var(--time-function);
 }
 
 /* Hero */
 .hero {
+  padding: 200px 0;
   height: 600px;
   text-align: center;
   background-repeat: no-repeat;
@@ -179,9 +205,9 @@ svg {
 }
 
 .hero-title {
+  text-transform: uppercase;
   margin-top: 0;
   margin-bottom: 30px;
-  padding-top: 200px;
   color: #ffffff;
 
   font-weight: 900;
@@ -214,6 +240,8 @@ svg {
   font-size: 16px;
   line-height: 1.62;
   box-shadow: var(--bg-button);
+  transition: color 250ms var(--time-function),
+    background-color 250ms var(--time-function);
 }
 
 .button.secondary {
@@ -230,7 +258,47 @@ svg {
   line-height: 1.62;
 }
 
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-modal);
+}
+
+.backdrop.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-height: 581px;
+  min-width: 528px;
+  background-color: var(--primary-bg-color);
+}
+
+.close-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--title-text-color);
+  background-color: var(--primary-bg-color);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0;
+}
+
 /* sections */
+
 .section {
   padding-top: 94px;
   padding-bottom: 94px;
@@ -284,22 +352,34 @@ svg {
 
 /* cards */
 
-.card-item {
-  flex-basis: calc(100% / 3 - 30px);
+.card-thumb {
+  display: flex;
+  position: relative;
+  z-index: -1;
+}
 
-  margin-left: 30px;
-  margin-top: 30px;
+.card-text {
+  position: absolute;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--primary-bg-color);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.14;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 70px;
+  background-color: var(--bg-color-work);
+  padding: 27px 0;
+  margin: 0;
 }
 
 .card-list {
-  padding: 0;
-  margin: 0;
-
   display: flex;
-  flex-wrap: wrap;
-
-  margin-left: -30px;
-  margin-top: -30px;
+  justify-content: space-between;
+  margin: 0 auto;
+  padding: 0;
 }
 
 /* team */
@@ -359,6 +439,8 @@ svg {
   width: 44px;
   height: 44px;
   color: var(--icon-color);
+  transition: color 250ms var(--time-function),
+    background-color 250ms var(--time-function);
 }
 
 .sl-icon {
@@ -402,11 +484,13 @@ svg {
 .client-item:hover,
 .client-item:focus {
   border: 1px solid var(--accent-color);
+  transition: border 250ms var(--time-function);
 }
 
 .client-icon:hover,
 .client-icon:focus {
   fill: var(--accent-color);
+  transition: fill 250ms var(--time-function);
 }
 
 /* footer */
@@ -507,6 +591,8 @@ footer {
   height: 44px;
   color: var(--primary-bg-color);
   background-color: var(--bg-icon);
+  transition: color 250ms var(--time-function),
+    background-color 250ms var(--time-function);
 }
 
 .set-icon {
@@ -587,6 +673,43 @@ footer {
   overflow: hidden;
 }
 
+.prokject-card {
+  transition: var(--time-function);
+}
+
+.project-thumb {
+  position: relative;
+}
+
+.project-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--card-bd-hiden);
+  padding: 63px 24px;
+  transform: translateY(101%);
+  overflow: hidden;
+  opacity: 0;
+  transition: transform 250ms var(--time-function),
+    opacity 250ms var(--time-function);
+}
+
+.project-item:hover .project-overlay,
+.project-item:focus .project-overlay {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.text-overlay {
+  color: var(--primary-bg-color);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.5;
+  letter-spacing: 0.03em;
+}
+
 .project-item:nth-child(3n) {
   margin-right: 0;
 }
@@ -605,4 +728,5 @@ footer {
 .project-item:hover,
 .project-item:focus {
   box-shadow: var(--card-shadow);
+  transition: 250ms var(--time-function);
 }
