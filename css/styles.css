@@ -395,6 +395,10 @@ svg {
 
 /* team */
 
+.conteiner-team {
+  background-color: var(--secondary-bg-color);
+}
+
 .team-title {
   color: var(--title-text-color);
   font-weight: 500;
