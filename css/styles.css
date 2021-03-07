@@ -395,7 +395,7 @@ svg {
 
 /* team */
 
-.conteiner-team {
+.section-team {
   background-color: var(--secondary-bg-color);
 }
 
@@ -435,6 +435,7 @@ svg {
   box-shadow: var(--card-shadow);
   border-radius: 4px;
   overflow: hidden;
+  background-color: var(--primary-bg-color);
 }
 
 .sl-list {
